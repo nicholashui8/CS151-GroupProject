@@ -19,6 +19,7 @@ public class YourProgramName {
         controller.mainLoop();
         view.dispose();
         queue.clear();
+        System.out.println("Hello Git Hub!");
     }
 }
 
