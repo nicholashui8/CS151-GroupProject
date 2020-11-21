@@ -1,11 +1,12 @@
 package controller;
 
-import ProjectStarterCode.model.Model;
-import ProjectStarterCode.view.View;
+import model.Model;
+import view.View;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
+
 
 public class Controller {
     private BlockingQueue<Message> queue;

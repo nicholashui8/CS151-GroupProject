@@ -1,12 +1,13 @@
 package view;
 
-import ProjectStarterCode.controller.HitMessage;
-import ProjectStarterCode.controller.Message;
-import ProjectStarterCode.controller.NewGameMessage;
+import controller.HitMessage;
+import controller.Message;
+import controller.NewGameMessage;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.BlockingQueue;
+
 
 public class View {
     private JFrame gameFrame;
