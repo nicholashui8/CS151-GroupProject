@@ -21,6 +21,7 @@ public class YourProgramName {
         view.dispose();
         queue.clear();
         System.out.println("Hello Git Hub!");
+        System.out.println("Helloer Git Hub!");
     }
 }
 
