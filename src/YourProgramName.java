@@ -1,5 +1,9 @@
+package src;
+
 import controller.Controller;
 import controller.Message;
+import model.GameModel;
+import model.LootBox;
 import model.Model;
 import view.View;
 
@@ -11,6 +15,8 @@ public class YourProgramName {
     private static BlockingQueue<Message> queue = new LinkedBlockingQueue<>();
     private static View view;
     private static Model model;
+    private static GameModel gModel;
+    private static LootBox lModel;
 
     public static void main(String[] args) {
         view = View.init(queue);
@@ -20,8 +26,6 @@ public class YourProgramName {
         controller.mainLoop();
         view.dispose();
         queue.clear();
-        System.out.println("Hello Git Hub!");
-        System.out.println("Helloer Git Hub!");
     }
 }
 
