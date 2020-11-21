@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
-
 public class Controller {
     private BlockingQueue<Message> queue;
     private View view; // Direct reference to view
@@ -27,7 +26,7 @@ public class Controller {
     public void mainLoop() {
         ValveResponse response = ValveResponse.EXECUTED;
         Message message = null;
-        while (response != ValveResponse.FINISH) {
+        while (response != controller.ValveResponse.FINISH) {
             try {
                 message = queue.take(); // <--- take next message from the queue
             } catch (InterruptedException e) {
@@ -37,7 +36,7 @@ public class Controller {
             for (Valve valve : valves) {
                 response = valve.execute(message);
                 // if successfully processed or game over, leave the loop
-                if (response != ValveResponse.MISS) {
+                if (response != controller.ValveResponse.MISS) {
                     break;
                 }
             }
@@ -52,7 +51,7 @@ public class Controller {
         /**
          * Performs certain action in response to message
          */
-        public ValveResponse execute(Message message);
+        public controller.ValveResponse execute(Message message);
     }
 
     private class DoNewGameValve implements Valve {
@@ -64,7 +63,7 @@ public class Controller {
             // otherwise it means that it is a NewGameMessage message
             // actions in Model
             // actions in View
-            return ValveResponse.EXECUTED;
+            return controller.ValveResponse.EXECUTED;
         }
     }
 
