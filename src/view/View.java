@@ -8,6 +8,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.BlockingQueue;
 
+
 public class View {
     private JFrame gameFrame;
     private BlockingQueue<Message> queue;

@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 
+
 public class Controller {
     private BlockingQueue<Message> queue;
     private View view; // Direct reference to view

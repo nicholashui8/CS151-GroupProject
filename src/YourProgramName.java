@@ -6,6 +6,7 @@ import view.View;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+
 public class YourProgramName {
     private static BlockingQueue<Message> queue = new LinkedBlockingQueue<>();
     private static View view;
