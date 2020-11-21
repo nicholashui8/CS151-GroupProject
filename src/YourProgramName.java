@@ -1,7 +1,7 @@
-import ProjectStarterCode.controller.Controller;
-import ProjectStarterCode.controller.Message;
-import ProjectStarterCode.model.Model;
-import ProjectStarterCode.view.View;
+import controller.Controller;
+import controller.Message;
+import model.Model;
+import view.View;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;

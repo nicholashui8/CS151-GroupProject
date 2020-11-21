@@ -1,7 +1,7 @@
 package controller;
 
-import ProjectStarterCode.model.Model;
-import ProjectStarterCode.view.View;
+import model.Model;
+import view.View;
 
 import java.util.LinkedList;
 import java.util.List;
