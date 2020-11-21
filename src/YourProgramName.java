@@ -1,5 +1,3 @@
-package src;
-
 import controller.Controller;
 import controller.Message;
 import model.GameModel;

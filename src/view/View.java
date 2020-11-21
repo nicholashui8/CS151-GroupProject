@@ -8,7 +8,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.BlockingQueue;
 
-
 public class View {
     private JFrame gameFrame;
     private BlockingQueue<Message> queue;
@@ -33,6 +32,7 @@ public class View {
         newGame.addActionListener(event -> {
             try {
                 this.queue.put(new NewGameMessage()); // <--- adding NewGame message to the queue
+                new MainFrame();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -52,9 +52,19 @@ public class View {
         gameFrame.pack();
         gameFrame.setLayout(new FlowLayout());
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        centerWindow(gameFrame);
         gameFrame.setVisible(true);
     }
 
+    public void centerWindow(Window w) // adjust the window frame
+    {
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Dimension d = tk.getScreenSize();
+        int width = 700;
+        int height = 400;
+        w.setBounds((int) (d.width - width) / 2, (int) (d.height - height) / 2,
+                width, height);
+    }
 
     public void change() {
         // TODO: do all the updates and repaint
