@@ -1,26 +1,18 @@
 import controller.Controller;
 import controller.Message;
-import model.GameModel;
-import model.LootBox;
-import model.Model;
 import view.View;
 
+import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
 public class YourProgramName {
-    private static BlockingQueue<Message> queue = new LinkedBlockingQueue<>();
-    private static View view;
-    private static Model model;
-    private static GameModel gModel;
-    private static LootBox lModel;
+    private static final BlockingQueue<Message> queue = new LinkedBlockingQueue<>();
 
-    public static void main(String[] args) {
-        view = View.init(queue);
-        model = new Model();
-        Controller controller = new Controller(view, model, queue);
-
+    public static void main(String[] args) throws IOException {
+        View view = View.init(queue);
+        Controller controller = new Controller(view, queue);
         controller.mainLoop();
         view.dispose();
         queue.clear();

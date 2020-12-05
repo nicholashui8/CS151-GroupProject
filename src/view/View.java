@@ -1,6 +1,5 @@
 package view;
 
-import controller.HitMessage;
 import controller.Message;
 import controller.NewGameMessage;
 
@@ -8,9 +7,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.concurrent.BlockingQueue;
 
+
 public class View {
-    private JFrame gameFrame;
-    private BlockingQueue<Message> queue;
+    private final BlockingQueue<Message> queue;
+    GameField gameField;
 
     public static View init(BlockingQueue<Message> queue) {
         // Create object of type view
@@ -24,23 +24,13 @@ public class View {
         // JFrame should be able to add Messages to queue
         // JFrame can be in a separate class or created JFrame with all the elements in this class
         // or you can make View a subclass of JFrame by extending it
-        gameFrame = new JFrame();
+        JFrame gameFrame = new JFrame();
 
         JButton newGame = new JButton("New Game");
-        JButton hitButton = new JButton("hit");
 
         newGame.addActionListener(event -> {
             try {
                 this.queue.put(new NewGameMessage()); // <--- adding NewGame message to the queue
-                new MainFrame();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
-
-        hitButton.addActionListener(event -> {
-            try {
-                this.queue.put(new HitMessage()); // <--- adding Hit message to the queue
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -48,7 +38,6 @@ public class View {
 
         // add everything and set layout and other standard JFrame settings
         gameFrame.add(newGame);
-        gameFrame.add(hitButton);
         gameFrame.pack();
         gameFrame.setLayout(new FlowLayout());
         gameFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,23 +45,71 @@ public class View {
         gameFrame.setVisible(true);
     }
 
-    public void centerWindow(Window w) // adjust the window frame
+    /**
+     * Set window properties such that it displays on left side of screen
+     *
+     * @param w object is used to set window properties
+     */
+    public static void centerWindow(Window w) // adjust the window frame
     {
         Toolkit tk = Toolkit.getDefaultToolkit();
         Dimension d = tk.getScreenSize();
         int width = 700;
-        int height = 400;
-        w.setBounds((int) (d.width - width) / 2, (int) (d.height - height) / 2,
+        int height = 450;
+        w.setBounds((d.width - width) / 2 - 200, (d.height - height) / 2,
                 width, height);
     }
 
-    public void change() {
+    /**
+     * Set window properties such that it displays on right side of screen
+     *
+     * @param w object is used to set window properties
+     */
+    public static void centerLootBoxWindow(Window w) {
+        Toolkit tk = Toolkit.getDefaultToolkit();
+        Dimension d = tk.getScreenSize();
+        int width = 650;
+        int height = 450;
+        w.setBounds((d.width - width) / 2 + 200, (d.height - height) / 2,
+                width, height);
+    }
+
+    /**
+     * Repaints the math equation and score
+     *
+     * @param scoreLabels        used to access the score labels
+     * @param gameField          used to access the math equations
+     * @param lootBoxButtonPanel used to access the buttons inside lootbox
+     */
+    public void change(ScoreLabels scoreLabels, GameField gameField, LootBoxButtonPanel lootBoxButtonPanel) {
         // TODO: do all the updates and repaint
-        //gameFrame.repaint();
+        scoreLabels.repaint();
+        gameField.repaint();
+        lootBoxButtonPanel.repaint();
+    }
+
+    /**
+     * Displays picture of item to the user
+     *
+     * @param itemImage used to set to visible
+     */
+    public void changeLootBox(ItemImage itemImage) {
+        itemImage.setVisible(true);
+        itemImage.repaint();
+    }
+
+    /**
+     * Makes inventory visible to user and repaints it
+     *
+     * @param inventoryPanel used to set to visible
+     */
+    public void changeInventory(InventoryPanel inventoryPanel) {
+        inventoryPanel.setVisible(true);
+        inventoryPanel.repaint();
     }
 
     public void dispose() {
-        // TODO: clear all the resources
-        // for example, gameFrame.dispose();
+
     }
+
 }

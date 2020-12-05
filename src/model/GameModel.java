@@ -1,22 +1,37 @@
 package model;
 
+
+import view.MainFrame;
+
 import java.util.Random;
 
-public class GameModel { // class to set up the game model and operation
+/**
+ * Class is handles the logic of creating random math problems
+ */
 
-    private static Random rand; //set up a static variable to keep count of how many time the game has ran
+public class GameModel {
+
     private String operand = " ";//string variable to hold the operands (adding, subtracting, multiplying, dividing)
-    private static int[] finalAns;// variable to hold the answer
-    public static boolean check; //variable to hold the user input and verify
+    private int[] finalAns;// variable to hold the answer
+    public boolean check; //variable to hold the user input and verify
+    private final Score score;
+    private final Player player;
 
-    public GameModel() {
-        Chances();
+    public GameModel(Score score, Player player) {
+        this.score = score;
+        this.player = player;
+        chances();
         solution();
     }
 
-    public static String getOperator() { // the process to get which operation to do
+    /**
+     * Used to generate a random operator for math equation
+     *
+     * @return an operator
+     */
+    public String getOperator() { // the process to get which operation to do
         String[] listoperator = {"+", "-", "*", "/"};
-        String operator = "";
+        String operator;
         int num = new Random().nextInt(4);//get a random number for 0-3; each representing an operator
 
         if (num == 0)// if random generated number is zero, it will do subtraction
@@ -35,70 +50,95 @@ public class GameModel { // class to set up the game model and operation
         return operator; //return which one of the four operations
     }
 
+    /**
+     * Gets and returns the operand
+     *
+     * @return the operand
+     */
     public String getOperand() {//get the operand
         return operand;
     }
 
-    // @edu.umd.cs.findbugs.annotations.SuppressFBWarnings("ST_WRITE_TO_STATIC_FROM_INSTANCE_METHOD")
+    /**
+     * Generates two random numbers for math equation
+     *
+     * @return an array of two numbers for math equation
+     */
     public int[] ranNumbers() {//create two random number generator and return an array
         int[] numbers = new int[2];
-        rand = new Random();
+        //set up a static variable to keep count of how many time the game has ran
+        Random rand = new Random();
         numbers[0] = rand.nextInt(15) + 1;
         rand = new Random();
         numbers[1] = rand.nextInt(15) + 1;
         return numbers;
     }
 
+    /**
+     * Generates a random math equation
+     */
+    public void chances() {
+        int rand = new Random().nextInt(2);//we want to have two cases: one case for right answer and one case for wrong answer
 
-    public int[] Chances() {
-        int rand = new Random().nextInt(2) + 1;//we want to have two cases: one case for right answer and one case for wrong answer
+        //int rand = new Random().nextInt(2) + 1;//we want to have two cases: one case for right answer and one case for wrong answer
         int[] randNumbers = ranNumbers();
-        int answer = 0; //variable to hold the answer
+        int answer; //variable to hold the answer
         operand = getOperator();
         finalAns = new int[3];
 
-        switch (rand) {// for the right case: add two random numbers and store the data
-            case 1:
-                if (operand == "+") {
+        // for the right case: add two random numbers and store the data
+        // for the wrong case: add two random numbers with additional random number and store the data
+        if (rand == 1) {
+            switch (operand) {
+                case "+":
                     answer = randNumbers[0] + randNumbers[1];
-                } else if (operand == "-") {
+                    break;
+                case "-":
                     answer = randNumbers[0] - randNumbers[1];
-                } else if (operand == "*") {
+                    break;
+                case "*":
                     answer = randNumbers[0] * randNumbers[1];
-                } else {
-
+                    break;
+                default:
                     answer = randNumbers[0] / randNumbers[1];
-                }
-                break;
-
-            case 2: // for the wrong case: add two random numbers with additional random number and store the data
-                if (operand == "+") {
+                    break;
+            }
+        } else {
+            switch (operand) {
+                case "+":
                     answer = randNumbers[0] + randNumbers[1] + new Random().nextInt(50);//add some other random number to create false answer
-                } else if (operand == "-") {
+                    break;
+                case "-":
                     answer = randNumbers[0] - randNumbers[1] + new Random().nextInt(50);
-                } else if (operand == "*") {
+                    break;
+                case "*":
                     answer = randNumbers[0] * randNumbers[1] + new Random().nextInt(50);
-                } else {
-
+                    break;
+                default:
                     answer = randNumbers[0] / randNumbers[1] + new Random().nextInt(50);
-                }
-                break;
+                    break;
+            }
         }
         finalAns[2] = answer;
         finalAns[0] = randNumbers[0];// putting all the three numbers into an array
         finalAns[1] = randNumbers[1];
-        return finalAns;
     }
 
+    /**
+     * Returns an array of answers
+     *
+     * @return an array of answers
+     */
     public int[] getFinalAnswer() {
-
         return finalAns;
     }
 
-    public boolean solution() { // this function will check the actual answer whether it is right or wrong based on the data
-        int[] solutionCalc = new int[3];
-        solutionCalc = getFinalAnswer();
-
+    /**
+     * Function will check the actual answer whether it is right or wrong based on the data
+     */
+    public void solution() {
+        int[] solutionCalc;
+        solutionCalc = finalAns;
         switch (operand) {
             case "+":
                 check = (solutionCalc[0] + solutionCalc[1]) == solutionCalc[2];//comparing the addition solution
@@ -112,12 +152,44 @@ public class GameModel { // class to set up the game model and operation
             case "/":
                 check = (solutionCalc[0] / solutionCalc[1]) == solutionCalc[2];//comparing the division solution
                 break;
+            default:
+                break;
         }
-        return check;
     }
 
-    public static boolean checkAns() {// check the solution
-        return check;
+    /**
+     * Updates score and coins depending if user clicks "yes" or "no"
+     *
+     * @param y is true if user clicks "yes" and false when user clicks "false"
+     */
+    public void action(boolean y) {
+        if (y) {//checking the option true or false
+            if (check) {// if the answer is correct, and the user press yes then, it will increment correct point
+                score.increment_Correct();
+                player.incrementCoins();
+            } else {// if the answer is wrong, and the user press yes then, it will increment wrong point
+                score.increment_Incorrect();
+                score.incrementWrong();
+                player.decrementCoins();
+            }
+        } else {
+            if (!check) {// if the answer is correct, and the user press yes then, it will increment correct point
+                score.increment_Correct();
+                player.incrementCoins();
+            } else {// if the answer is wrong, and the user press yes then, it will increment wrong point
+                score.increment_Incorrect();
+                score.incrementWrong();
+                player.decrementCoins();
+            }
+
+        }
+        if (score.getWrong() > 5) {//  if more than 5 wrong answer, the game is over
+            if (MainFrame.playAgain()) {
+                score.reset();//reset the score and wrong
+            } else {
+                System.exit(0);
+            }
+        }
     }
 
 }
