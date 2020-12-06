@@ -39,7 +39,7 @@ public class GameModelTester {
         int[] finalans2 = gamemodel.getFinalAnswer();
         gamemodel.getOperand();
 
-        assertTrue(finalans1[0] != finalans2[0] || finalans1[1]!= finalans2[1] || finalans1[2] != finalans2[2],
+        assertTrue(finalans1[0] != finalans2[0] && finalans1[1]!= finalans2[1] && finalans1[2] != finalans2[2],
                 "The numbers generated should be random");
     }
 
